@@ -2,7 +2,7 @@ class Employee
   attr_reader :first_name, :last_name, :salary, :active
   attr_writer :first_name, :last_name, :active
 
-  def initialize(input_optionsch)
+  def initialize(input_options)
     @first_name = input_options[:first_name]
     @last_name = input_options[:last_name]
     @salary = input_options[:salary]
@@ -23,7 +23,17 @@ class Manager < Employee
 
   def initialize(input_options)
     super(input_options)
-    @employee = input_options[:employees]
+    @employees = input_options[:employees]
+  end
+
+  def give_all_raises
+    employees.each { |employee| employee.give_annual_raise }
+  end
+
+  def fire_all_employees
+    employees.each do |employee|
+      employee.active = false
+    end
   end
 
   def send_report
@@ -47,6 +57,7 @@ employee_2 = Employee.new(
                           active: true
                           )
 
+
 manager = Manager.new(
                       first_name: "Leia",
                       last_name: "Organa",
@@ -55,6 +66,10 @@ manager = Manager.new(
                       employees: [employee_1, employee_2]
                       )
 
-employee_1
-employee_2
-manager
+p employee_1.active
+p employee_2.active
+
+manager.fire_all_employees
+
+p employee_1.active
+p employee_2.active
